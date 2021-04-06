@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(RCMSFS2020App());
+  runApp(RCFS2020App());
 }
 
-class RCMSFS2020App extends StatelessWidget {
+class RCFS2020App extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
