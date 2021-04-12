@@ -1,0 +1,116 @@
+#include <winsock2.h>
+#include <windows.h>
+#include <iostream>
+#include <ws2tcpip.h>
+#include <io.h>
+
+#include "SimConnect.h"
+#include "server.h"
+
+SOCKET sock;
+
+int quit = 0;
+HANDLE hSimConnect = NULL;
+
+
+enum DATA_DEFINE_ID {
+	DEFINITION_1,
+};
+
+enum DATA_REQUEST_ID {
+	REQUEST_1,
+	REQUEST_2,
+};
+
+struct SimResponse {
+	double altitude;
+	int32_t heading;
+	int32_t speed;
+	int32_t vertical_speed;
+};
+
+SimResponse SR;
+
+void CALLBACK MyDispatchProc1(SIMCONNECT_RECV* pData, DWORD cbData, void* pContext) {
+	switch (pData->dwID)
+	{
+
+	case SIMCONNECT_RECV_ID_SIMOBJECT_DATA:
+	{
+		SIMCONNECT_RECV_SIMOBJECT_DATA* pObjData = (SIMCONNECT_RECV_SIMOBJECT_DATA*)pData;
+
+		switch (pObjData->dwRequestID)
+		{
+		case REQUEST_1:
+
+			SimResponse* pS = (SimResponse*)&pObjData->dwData;
+			SR=*pS;
+			char str[5];
+			sprintf(str,"speed %d",pS->speed);
+
+			send_a_mess(sock,str);
+
+
+		/*	std::cout
+				
+				<< "\rAltitude: " << pS->altitude
+				<< " - Heading: " << pS->heading
+				<< " - Speed (knots): " << pS->speed
+				<< " - Vertical Speed: " << pS->vertical_speed
+				
+				<< std::flush; */
+
+			break;
+		}
+		break;
+	}
+
+	case SIMCONNECT_RECV_ID_QUIT:
+	{
+		quit = 1;
+		break;
+	}
+
+	default:
+		break;
+	}
+}
+
+bool initSimEvents() {
+	HRESULT hr;
+
+	if (SUCCEEDED(SimConnect_Open(&hSimConnect, "Client Event Demo", NULL, 0, NULL, 0))) {
+		std::cout << "\nConnected To Microsoft Flight Simulator 2020!\n";
+
+		// DATA
+		hr = SimConnect_AddToDataDefinition(hSimConnect, DEFINITION_1, "Indicated Altitude", "feet");
+		hr = SimConnect_AddToDataDefinition(hSimConnect, DEFINITION_1, "HEADING INDICATOR", "degrees", SIMCONNECT_DATATYPE_INT32);
+		hr = SimConnect_AddToDataDefinition(hSimConnect, DEFINITION_1, "Airspeed Indicated", "knots", SIMCONNECT_DATATYPE_INT32);
+		hr = SimConnect_AddToDataDefinition(hSimConnect, DEFINITION_1, "VERTICAL SPEED", "Feet per second", SIMCONNECT_DATATYPE_INT32);
+
+		// EVERY SECOND REQUEST DATA FOR DEFINITION 1 ON THE CURRENT USER AIRCRAFT (SIMCONNECT_OBJECT_ID_USER)
+		hr = SimConnect_RequestDataOnSimObject(hSimConnect, REQUEST_1, DEFINITION_1, SIMCONNECT_OBJECT_ID_USER, SIMCONNECT_PERIOD_SECOND);
+
+		// Process incoming SimConnect Server messages
+		while (quit == 0) {
+			// Continuously call SimConnect_CallDispatch until quit - MyDispatchProc1 will handle simulation events
+			SimConnect_CallDispatch(hSimConnect, MyDispatchProc1, NULL);
+			Sleep(1);
+		}
+
+		hr = SimConnect_Close(hSimConnect);
+		return true;
+	}
+	else {
+		std::cout << "\nFailed to Connect!!!!\n";
+		return false;
+	}
+}
+
+int main(int argc, char *argv[]) {
+	sock = init(argv[1],9999);
+	initSimEvents();
+	closesocket(s);
+    WSACleanup();
+	return 0;
+}
