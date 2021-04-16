@@ -9,7 +9,7 @@
 
 #define BUF_SIZE 256
 TCHAR szName[]=TEXT("Global\\MyFileMappingObject");
-TCHAR szMsg[20]="speed = 40";
+TCHAR szMsg[40]=TEXT("100.000");
 
 HANDLE hMapFile;
 LPCTSTR pBuf;
@@ -71,7 +71,7 @@ enum DATA_REQUEST_ID {
 struct SimResponse {
 	double altitude;
 	int32_t heading;
-	int32_t speed;
+	float speed;
 	int32_t vertical_speed;
 };
 
@@ -96,8 +96,8 @@ void CALLBACK MyDispatchProc1(SIMCONNECT_RECV* pData, DWORD cbData, void* pConte
 				<< " - Speed (knots): " << pS->speed
 				<< " - Vertical Speed: " << pS->vertical_speed
 				
-				<< std::endl;
-			_stprintf(szMsg, TEXT("speed : %d"), pS->speed);
+				<< std::flush;
+			_stprintf(szMsg, TEXT("%f"), pS->speed);
 			CopyMemory((PVOID)pBuf, szMsg, (_tcslen(szMsg) * sizeof(TCHAR)));
 			break;
 		}
@@ -116,9 +116,9 @@ void CALLBACK MyDispatchProc1(SIMCONNECT_RECV* pData, DWORD cbData, void* pConte
 }
 
 bool initSimEvents() {
+	std::cout<< "configuration en cours\n";
 	HRESULT hr;
 	config();
-
 	if (SUCCEEDED(SimConnect_Open(&hSimConnect, "Client Event Demo", NULL, 0, NULL, 0))) {
 		std::cout << "\nConnected To Microsoft Flight Simulator 2020!\n";
 
@@ -126,18 +126,18 @@ bool initSimEvents() {
 		// DATA
 		hr = SimConnect_AddToDataDefinition(hSimConnect, DEFINITION_1, "Indicated Altitude", "feet");
 		hr = SimConnect_AddToDataDefinition(hSimConnect, DEFINITION_1, "HEADING INDICATOR", "degrees", SIMCONNECT_DATATYPE_INT32);
-		hr = SimConnect_AddToDataDefinition(hSimConnect, DEFINITION_1, "Airspeed Indicated", "knots", SIMCONNECT_DATATYPE_INT32);
+		hr = SimConnect_AddToDataDefinition(hSimConnect, DEFINITION_1, "Airspeed Indicated", "knots", SIMCONNECT_DATATYPE_FLOAT32);
 		hr = SimConnect_AddToDataDefinition(hSimConnect, DEFINITION_1, "VERTICAL SPEED", "Feet per second", SIMCONNECT_DATATYPE_INT32);
 
 		// EVERY SECOND REQUEST DATA FOR DEFINITION 1 ON THE CURRENT USER AIRCRAFT (SIMCONNECT_OBJECT_ID_USER)
-		hr = SimConnect_RequestDataOnSimObject(hSimConnect, REQUEST_1, DEFINITION_1, SIMCONNECT_OBJECT_ID_USER, SIMCONNECT_PERIOD_SECOND);
+		hr = SimConnect_RequestDataOnSimObject(hSimConnect, REQUEST_1, DEFINITION_1, SIMCONNECT_OBJECT_ID_USER, SIMCONNECT_PERIOD_VISUAL_FRAME);
 
 		// Process incoming SimConnect Server messages
 		int compteur =0;
 		while (quit == 0 && _kbhit()==0) {
 			// Continuously call SimConnect_CallDispatch until quit - MyDispatchProc1 will handle simulation events
 			SimConnect_CallDispatch(hSimConnect, MyDispatchProc1, NULL);
-			Sleep(1000);
+			Sleep(25);
 		}
 		
 		hr = SimConnect_Close(hSimConnect);
@@ -145,7 +145,7 @@ bool initSimEvents() {
 	}
 	else {
 		std::cout << "\nFailed to Connect!!!!\n";
-		while (true) {
+		while (_kbhit()==0) {
 
 		}
 		return false;

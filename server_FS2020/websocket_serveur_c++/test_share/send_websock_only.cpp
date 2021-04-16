@@ -34,13 +34,23 @@ int reader_init()
    if (hMapFile == NULL)
    {
       _tprintf(TEXT("Could not open file mapping object (%d).\n"),
+   
              GetLastError());
+             printf("passage en mode test\n\n");
       return 1;
    }
     return 0;
 }
-char VAL_GLOBALE[20];
-int read_shared() {
+
+
+char VAL_GLOBALE[40] = "100.000"; ///// VALEUR DE VITESSE
+
+
+
+int read_shared(int beta) {
+    if (beta) {
+        return 0;
+    }
    pBuf = (LPTSTR) MapViewOfFile(hMapFile, // handle to map object
                FILE_MAP_ALL_ACCESS,  // read/write permission
                0,
@@ -56,6 +66,7 @@ int read_shared() {
 
       return 1;
    }
+
     strcpy(VAL_GLOBALE,pBuf);
    return 0;
 }
@@ -83,6 +94,7 @@ websocketpp::frame::opcode::value opcode_client = websocketpp::frame::opcode::va
 bool check_co = false;
 std::string ktsvals[] = {"0","50","100"};
 int compt;
+int test_sharval;
 
 enum action_type {
     SUBSCRIBE,
@@ -200,19 +212,17 @@ public:
 
     void send_messages() {
         while(!check_co) {
-            Sleep(100);
+            Sleep(10);
         }
         while (check_co) {
             lock_guard<mutex> guard(m_connection_lock);
 
             con_list::iterator it;
-            int k=0;
+
             for (it = m_connections.begin(); it != m_connections.end(); ++it) {
                 send_a_message(&m_server,*it,"50");
-                std::cout << k;
-                k++;
             }           
-            Sleep(500);
+            Sleep(50);
         }
         std::terminate();
         return;
@@ -232,10 +242,10 @@ private:
 
 void send_a_message(server* s, websocketpp::connection_hdl hdl, std::string payload) {
     try {
-        read_shared();
+        read_shared(test_sharval);
         compt = (compt+1)%3;
         s->send(hdl, VAL_GLOBALE, opcode_client);
-        std::cout << "value envoyee : " << VAL_GLOBALE << std::endl;
+        std::cout << "\rvalue envoyee : " << VAL_GLOBALE <<"      value reelle : " << pBuf <<  std::flush;
     } catch (websocketpp::exception const & e) {
         std::cout << "Echo failed because: "
                   << "(" << e.what() << ")" << std::endl;
@@ -243,7 +253,7 @@ void send_a_message(server* s, websocketpp::connection_hdl hdl, std::string payl
 }
 
 int main(int argc, char *argv[]) {
-
+    printf("initilisation su serveur\n");
     int nport;
     if (argc > 1) {
         nport=std::stoi(argv[1]);
@@ -252,7 +262,7 @@ int main(int argc, char *argv[]) {
         nport=9002;
     }
 
-    reader_init();
+    test_sharval = reader_init();
     try {
     broadcast_server server_instance;
 
@@ -262,6 +272,7 @@ int main(int argc, char *argv[]) {
     thread t(bind(&broadcast_server::process_messages,&server_instance));
     thread t2(bind(&broadcast_server::send_messages,&server_instance));
 
+    printf("attente de connexion\n\n");
     // Run the asio loop with the main thread
     server_instance.run(nport);
 
