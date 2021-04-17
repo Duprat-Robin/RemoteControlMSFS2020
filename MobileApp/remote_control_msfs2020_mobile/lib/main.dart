@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
+import 'controls_page.dart';
 
-void main() {
-  runApp(RCFS2020App());
-}
+void main() => runApp(RemoteControlApp());
 
-class RCFS2020App extends StatelessWidget {
-  // This widget is the root of your application.
+class RemoteControlApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -13,21 +11,24 @@ class RCFS2020App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: AppHomePage(title: 'Remote Control MSFS2020 Home Page'),
+      home: Home(),
     );
   }
 }
 
-class AppHomePage extends StatefulWidget {
-  AppHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
+class Home extends StatelessWidget {
   @override
-  _AppHomePageState createState() => _AppHomePageState();
-}
-
-class _AppHomePageState extends State<AppHomePage> {
-  @override
-  Widget build(BuildContext context) {}
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Remote Control for Microsoft Flight Simulator 2020'),
+        centerTitle: true,
+      ),
+      body: Center(
+        child: Text(
+            'Welcome in Remote Control for Microsoft Flight Simulator 2020'),
+        child: RadioWidget(),
+      ),
+    );
+  }
 }
