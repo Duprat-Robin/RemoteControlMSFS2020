@@ -87,6 +87,9 @@ class _HorizonPaintedState extends State<HorizonPainted> {
       _rollGraduations.addAll(
           {key * pi / 180 - pi / 2: value, -key * pi / 180 - pi / 2: value});
     });
+    widget.roll.addListener(() {
+      setState(() {});
+    });
   }
 
   @override

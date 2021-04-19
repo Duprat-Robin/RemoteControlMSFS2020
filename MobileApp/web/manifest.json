@@ -1,6 +1,6 @@
 {
-    "name": "websocket",
-    "short_name": "websocket",
+    "name": "remotecontrolmsfs",
+    "short_name": "remotecontrolmsfs",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

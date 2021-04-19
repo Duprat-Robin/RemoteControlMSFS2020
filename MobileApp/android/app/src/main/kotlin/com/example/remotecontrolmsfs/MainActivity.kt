@@ -1,4 +1,4 @@
-package com.example.websocket
+package com.example.remotecontrolmsfs
 
 import io.flutter.embedding.android.FlutterActivity
 

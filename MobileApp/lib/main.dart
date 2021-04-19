@@ -1,7 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:websocket/Instruments/artificialHorizon.dart';
-import 'package:websocket/sim.dart';
+import 'package:remotecontrolmsfs/Instruments/artificialHorizon.dart';
+import 'package:remotecontrolmsfs/sim.dart';
 import 'Instruments/gauge.dart';
 import 'webSocket.dart';
 import 'routes.dart';

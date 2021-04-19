@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.websocket">
+    package="com.example.remotecontrolmsfs">
    <application
-        android:label="websocket"
+        android:label="remotecontrolmsfs"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

@@ -1,4 +1,4 @@
-import 'package:websocket/Instruments/artificialHorizon.dart';
+import 'package:remotecontrolmsfs/Instruments/artificialHorizon.dart';
 
 import 'Instruments/gauge.dart';
 import 'webSocket.dart';
