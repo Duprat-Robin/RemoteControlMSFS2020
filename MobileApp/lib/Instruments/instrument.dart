@@ -21,10 +21,11 @@ class ExpendableIntrument extends StatelessWidget {
                 icon: Icon(Icons.expand),
                 tooltip: 'Expand',
                 onPressed: () {
-                  if (ModalRoute.of(context)?.settings?.name == Routes.cokpit) {
+                  if (ModalRoute.of(context)?.settings?.name ==
+                      Routes.cockpit) {
                     Navigator.pushNamed(context, Routes.paintedGauge);
                   } else {
-                    Navigator.pushNamed(context, Routes.cokpit);
+                    Navigator.pushNamed(context, Routes.cockpit);
                   }
                 },
               ),

@@ -8,5 +8,5 @@ class Routes {
   static const String gauge = Anemometre.routeName;
   static const String aritficialHorizon = ArtificialHorizon.routeName;
   static const String paintedGauge = AnemometrePainted.routeName;
-  static const String cokpit = '/';
+  static const String cockpit = '/cockpit';
 }

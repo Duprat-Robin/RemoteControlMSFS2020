@@ -5,7 +5,7 @@ import 'main.dart';
 
 class ConnectionWidget extends StatefulWidget {
   final String title;
-  static const String routeName = '/websocket';
+  static const String routeName = '/';
 
   ConnectionWidget({Key key, @required this.title}) : super(key: key);
 
@@ -100,7 +100,7 @@ class _ConnectionWidgetState extends State<ConnectionWidget> {
     if (_channel != null && !_isConnected) {
       print("Connection succesful");
       _isConnected = true;
-      Navigator.pushNamed(context, Routes.paintedGauge);
+      Navigator.pushNamed(context, Routes.cockpit);
     }
   }
 

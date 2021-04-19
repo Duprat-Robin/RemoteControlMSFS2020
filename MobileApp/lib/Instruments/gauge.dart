@@ -117,10 +117,11 @@ class _AnemometrePaintedState extends State<AnemometrePainted> {
                 icon: Icon(Icons.expand),
                 tooltip: 'Expand',
                 onPressed: () {
-                  if (ModalRoute.of(context)?.settings?.name == '/') {
+                  if (ModalRoute.of(context)?.settings?.name ==
+                      Routes.cockpit) {
                     Navigator.pushNamed(context, Routes.paintedGauge);
                   } else {
-                    Navigator.pushNamed(context, '/');
+                    Navigator.pushNamed(context, Routes.cockpit);
                   }
                 },
               ),

@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
                 AnemometrePainted(mainSim.speed, 200, 150, 85, 70, 55),
               ],
             ),
-        Routes.cokpit: (context) => Row(
+        Routes.cockpit: (context) => Row(
               children: [
                 HorizonPainted.standard(mainSim.roll, mainSim.pitch),
                 AnemometrePainted(mainSim.speed, 200, 150, 85, 70, 55),
