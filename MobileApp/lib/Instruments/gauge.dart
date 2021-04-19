@@ -1,6 +1,10 @@
+import 'dart:html';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
+
+import '../routes.dart';
 
 // StatefulWidget prennant en paramètre un ValueNotifier de double
 // correspondant à un angle en radian indiquant la position de l'aiguille
@@ -83,26 +87,46 @@ class _AnemometrePaintedState extends State<AnemometrePainted> {
   Widget build(BuildContext context) {
     _angle = widget.speed.value * _speedToAngle - pi / 2;
     return Expanded(
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          return Container(
-            padding: EdgeInsets.all(0.0),
-            margin: EdgeInsets.all(0.0),
-            child: CustomPaint(
-              //size: MediaQuery.of(context).size,
-              size: Size(constraints.maxWidth, constraints.maxHeight),
-              painter: AnemometrePainter(
-                speedToAngle(widget.vne),
-                speedToAngle(widget.vno),
-                speedToAngle(widget.vfe),
-                speedToAngle(widget.vs1),
-                speedToAngle(widget.vs0),
-                _graduationSize * _speedToAngle,
-                _angle,
+      child: Hero(
+        tag: "anemo",
+        child: Stack(
+          children: <Widget>[
+            LayoutBuilder(
+              builder: (context, constraints) {
+                return Container(
+                  padding: EdgeInsets.all(0.0),
+                  margin: EdgeInsets.all(0.0),
+                  child: CustomPaint(
+                    //size: MediaQuery.of(context).size,
+                    size: Size(constraints.maxWidth, constraints.maxHeight),
+                    painter: AnemometrePainter(
+                      speedToAngle(widget.vne),
+                      speedToAngle(widget.vno),
+                      speedToAngle(widget.vfe),
+                      speedToAngle(widget.vs1),
+                      speedToAngle(widget.vs0),
+                      _graduationSize * _speedToAngle,
+                      _angle,
+                    ),
+                  ),
+                );
+              },
+            ),
+            Material(
+              child: IconButton(
+                icon: Icon(Icons.expand),
+                tooltip: 'Expand',
+                onPressed: () {
+                  if (ModalRoute.of(context)?.settings?.name == '/') {
+                    Navigator.pushNamed(context, Routes.paintedGauge);
+                  } else {
+                    Navigator.pushNamed(context, '/');
+                  }
+                },
               ),
             ),
-          );
-        },
+          ],
+        ),
       ),
     );
   }

@@ -20,11 +20,17 @@ class MyApp extends StatelessWidget {
       routes: {
         Routes.webSocket: (context) => webSocket,
         Routes.gauge: (context) => Anemometre(mainSim.speed),
-        Routes.aritficialHorizon: (context) =>
-            ArtificialHorizon(mainSim.roll, mainSim.pitch),
-        Routes.paintedGauge: (context) =>
-            AnemometrePainted(mainSim.speed, 200, 150, 85, 70, 55),
-        '/': (context) => Row(
+        Routes.aritficialHorizon: (context) => Row(
+              children: [
+                ArtificialHorizon(mainSim.roll, mainSim.pitch),
+              ],
+            ),
+        Routes.paintedGauge: (context) => Row(
+              children: [
+                AnemometrePainted(mainSim.speed, 200, 150, 85, 70, 55),
+              ],
+            ),
+        Routes.cokpit: (context) => Row(
               children: [
                 HorizonPainted.standard(mainSim.roll, mainSim.pitch),
                 AnemometrePainted(mainSim.speed, 200, 150, 85, 70, 55),

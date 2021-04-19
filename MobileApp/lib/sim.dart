@@ -17,6 +17,5 @@ class Sim {
         roll.value = double.parse(parts.split(":")[1]);
       } else {}
     }
-    speed.value = double.parse(message);
   }
 }
