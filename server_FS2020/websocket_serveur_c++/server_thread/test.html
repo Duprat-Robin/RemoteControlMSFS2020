@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<title>WebSocket Test</title>
+<h1>Test simconnect client</h1>
+<input type="text" id="text_url" name="name">
+<button type="button" id="url" onclick="changeIP()">Select IP:port</button><i id="ref">   ip:port actuel : localhost:9002</i>
+<h1></h1>
+<button onclick="testWebSocket()">Démarrer connexion</button>
+
+<script language="javascript" type="text/javascript">
+
+//var wsUri = "ws://192.168.43.1:9002";
+var wsUri = "ws://localhost:9002";
+var output;
+
+function init()
+{
+  output = document.getElementById("output");
+  //testWebSocket();
+}
+
+function changeIP()
+{
+  var ipadr = document.getElementById("text_url").value;
+  wsUri = "ws://" + ipadr;
+  var el2 = document.getElementById("ref");
+  el2.innerHTML = "   ip:port actuel : " + ipadr; 
+  document.getElementById("text_url").value ="";
+  console.log("wsUri changed : "+wsUri);
+}
+
+function testWebSocket()
+{
+  websocket = new WebSocket(wsUri);
+  console.log("websocket created");
+  websocket.onopen = function(evt) { onOpen(evt) };
+  websocket.onclose = function(evt) { onClose(evt) };
+  websocket.onmessage = function(evt) { onMessage(evt) };
+  websocket.onerror = function(evt) { onError(evt) };
+}
+
+function onOpen(evt)
+{
+  writeToScreen("CONNECTED");
+  writeToScreen('<span id="id_kts" style="color: blue;">VITESSE EN NOEUDS : </span>');
+  //doSend("WebSocket rocks");
+}
+
+function onClose(evt)
+{
+  writeToScreen("DISCONNECTED");
+}
+
+function onMessage(evt)
+{
+  var el = document.getElementById("id_kts");
+  el.innerHTML = "VITESSE EN NOEUDS : " + evt.data; 
+  //writeToScreen('<span style="color: blue;">RESPONSE TRUC: ' + evt.data+'</span>');
+  //websocket.close();
+}
+
+function onError(evt)
+{
+ 
+  writeToScreen('<span style="color: red;">ERROR:</span> ' + evt.data);
+}
+
+function doSend(message)
+{
+  writeToScreen("SENT: " + message);
+  websocket.send(message);
+}
+
+function writeToScreen(message)
+{
+  var pre = document.createElement("p");
+  pre.style.wordWrap = "break-word";
+  pre.innerHTML = message;
+  output.appendChild(pre);
+}
+
+window.addEventListener("load", init, false);
+
+</script>
+
+<div id="output"></div>
+        
