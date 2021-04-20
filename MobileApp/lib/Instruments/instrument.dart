@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../routes.dart';
 
-class ExpendableIntrument extends StatelessWidget {
+class InstrumentLayout extends StatelessWidget {
   final String _tag;
-  final LayoutBuilder _lb;
+  final Widget _widget;
 
-  const ExpendableIntrument(this._tag, this._lb);
+  const InstrumentLayout(this._tag, this._widget);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class ExpendableIntrument extends StatelessWidget {
         tag: _tag,
         child: Stack(
           children: <Widget>[
-            _lb,
+            _widget,
             Material(
               child: IconButton(
                 icon: Icon(Icons.expand),
@@ -23,9 +23,14 @@ class ExpendableIntrument extends StatelessWidget {
                 onPressed: () {
                   if (ModalRoute.of(context)?.settings?.name ==
                       Routes.cockpit) {
-                    Navigator.pushNamed(context, Routes.paintedGauge);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              Row(children: [InstrumentLayout(_tag, _widget)])),
+                    );
                   } else {
-                    Navigator.pushNamed(context, Routes.cockpit);
+                    Navigator.pop(context);
                   }
                 },
               ),

@@ -94,20 +94,18 @@ class _HorizonPaintedState extends State<HorizonPainted> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          return Container(
-            child: CustomPaint(
-              size: Size(constraints.maxWidth, constraints.maxHeight),
-              painter: HorizonPainter(
-                widget.roll.value * pi / 180,
-                _rollGraduations,
-              ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Container(
+          child: CustomPaint(
+            size: Size(constraints.maxWidth, constraints.maxHeight),
+            painter: HorizonPainter(
+              widget.roll.value,
+              _rollGraduations,
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }

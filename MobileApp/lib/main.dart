@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:remotecontrolmsfs/Instruments/artificialHorizon.dart';
 import 'package:remotecontrolmsfs/sim.dart';
 import 'Instruments/gauge.dart';
+import 'Instruments/instrument.dart';
 import 'webSocket.dart';
 import 'routes.dart';
 
@@ -20,20 +21,12 @@ class MyApp extends StatelessWidget {
       routes: {
         Routes.webSocket: (context) => webSocket,
         Routes.gauge: (context) => Anemometre(mainSim.speed),
-        Routes.aritficialHorizon: (context) => Row(
-              children: [
-                ArtificialHorizon(mainSim.roll, mainSim.pitch),
-              ],
-            ),
-        Routes.paintedGauge: (context) => Row(
-              children: [
-                AnemometrePainted(mainSim.speed, 200, 150, 85, 70, 55),
-              ],
-            ),
         Routes.cockpit: (context) => Row(
               children: [
-                HorizonPainted.standard(mainSim.roll, mainSim.pitch),
-                AnemometrePainted(mainSim.speed, 200, 150, 85, 70, 55),
+                InstrumentLayout('horiz',
+                    HorizonPainted.standard(mainSim.roll, mainSim.pitch)),
+                InstrumentLayout('anemo',
+                    AnemometrePainted(mainSim.speed, 200, 150, 85, 70, 55)),
               ],
             ),
       },

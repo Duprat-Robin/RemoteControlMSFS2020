@@ -1,11 +1,6 @@
-import 'dart:html';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
-
-import '../routes.dart';
-
 // StatefulWidget prennant en paramètre un ValueNotifier de double
 // correspondant à un angle en radian indiquant la position de l'aiguille
 // La vitesse est kts
@@ -60,10 +55,14 @@ class AnemometrePainted extends StatefulWidget {
   final int vs0; // decrochage en config décollage
   final int vs1; // decrochage en lisse
 
-  static const String routeName = '/gauge';
-
   AnemometrePainted(
-      this.speed, this.vne, this.vno, this.vfe, this.vs1, this.vs0);
+    this.speed,
+    this.vne,
+    this.vno,
+    this.vfe,
+    this.vs1,
+    this.vs0,
+  );
 
   @override
   _AnemometrePaintedState createState() => _AnemometrePaintedState();
@@ -86,49 +85,26 @@ class _AnemometrePaintedState extends State<AnemometrePainted> {
   @override
   Widget build(BuildContext context) {
     _angle = widget.speed.value * _speedToAngle - pi / 2;
-    return Expanded(
-      child: Hero(
-        tag: "anemo",
-        child: Stack(
-          children: <Widget>[
-            LayoutBuilder(
-              builder: (context, constraints) {
-                return Container(
-                  padding: EdgeInsets.all(0.0),
-                  margin: EdgeInsets.all(0.0),
-                  child: CustomPaint(
-                    //size: MediaQuery.of(context).size,
-                    size: Size(constraints.maxWidth, constraints.maxHeight),
-                    painter: AnemometrePainter(
-                      speedToAngle(widget.vne),
-                      speedToAngle(widget.vno),
-                      speedToAngle(widget.vfe),
-                      speedToAngle(widget.vs1),
-                      speedToAngle(widget.vs0),
-                      _graduationSize * _speedToAngle,
-                      _angle,
-                    ),
-                  ),
-                );
-              },
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Container(
+          padding: EdgeInsets.all(0.0),
+          margin: EdgeInsets.all(0.0),
+          child: CustomPaint(
+            //size: MediaQuery.of(context).size,
+            size: Size(constraints.maxWidth, constraints.maxHeight),
+            painter: AnemometrePainter(
+              speedToAngle(widget.vne),
+              speedToAngle(widget.vno),
+              speedToAngle(widget.vfe),
+              speedToAngle(widget.vs1),
+              speedToAngle(widget.vs0),
+              _graduationSize * _speedToAngle,
+              _angle,
             ),
-            Material(
-              child: IconButton(
-                icon: Icon(Icons.expand),
-                tooltip: 'Expand',
-                onPressed: () {
-                  if (ModalRoute.of(context)?.settings?.name ==
-                      Routes.cockpit) {
-                    Navigator.pushNamed(context, Routes.paintedGauge);
-                  } else {
-                    Navigator.pushNamed(context, Routes.cockpit);
-                  }
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
