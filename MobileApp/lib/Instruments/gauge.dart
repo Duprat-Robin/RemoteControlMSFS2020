@@ -77,9 +77,17 @@ class _AnemometrePaintedState extends State<AnemometrePainted> {
   void initState() {
     super.initState();
     _speedToAngle = (2 * pi) / (widget.vne + 50);
-    widget.speed.addListener(() {
-      setState(() {});
-    });
+    widget.speed.addListener(rebuild);
+  }
+
+  void rebuild() {
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    widget.speed.removeListener(rebuild);
   }
 
   @override
@@ -88,8 +96,6 @@ class _AnemometrePaintedState extends State<AnemometrePainted> {
     return LayoutBuilder(
       builder: (context, constraints) {
         return Container(
-          padding: EdgeInsets.all(0.0),
-          margin: EdgeInsets.all(0.0),
           child: CustomPaint(
             //size: MediaQuery.of(context).size,
             size: Size(constraints.maxWidth, constraints.maxHeight),

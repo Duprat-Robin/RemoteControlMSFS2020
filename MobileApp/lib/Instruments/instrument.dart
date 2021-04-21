@@ -3,19 +3,19 @@ import 'package:flutter/material.dart';
 import '../routes.dart';
 
 class InstrumentLayout extends StatelessWidget {
-  final String _tag;
-  final Widget _widget;
+  final String tag;
+  final Widget child;
 
-  const InstrumentLayout(this._tag, this._widget);
+  const InstrumentLayout({this.tag, this.child});
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Hero(
-        tag: _tag,
+        tag: tag,
         child: Stack(
           children: <Widget>[
-            _widget,
+            child,
             Material(
               child: IconButton(
                 icon: Icon(Icons.expand),
@@ -26,8 +26,9 @@ class InstrumentLayout extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              Row(children: [InstrumentLayout(_tag, _widget)])),
+                          builder: (context) => Row(children: [
+                                InstrumentLayout(tag: tag, child: child)
+                              ])),
                     );
                   } else {
                     Navigator.pop(context);
