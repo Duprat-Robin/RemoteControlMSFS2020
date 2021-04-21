@@ -23,10 +23,14 @@ class MyApp extends StatelessWidget {
         Routes.gauge: (context) => Anemometre(mainSim.speed),
         Routes.cockpit: (context) => Row(
               children: [
-                InstrumentLayout('horiz',
-                    HorizonPainted.standard(mainSim.roll, mainSim.pitch)),
-                InstrumentLayout('anemo',
-                    AnemometrePainted(mainSim.speed, 200, 150, 85, 70, 55)),
+                InstrumentLayout(
+                    tag: 'horiz',
+                    child:
+                        HorizonPainted.standard(mainSim.roll, mainSim.pitch)),
+                InstrumentLayout(
+                    tag: 'anemo',
+                    child:
+                        AnemometrePainted(mainSim.speed, 200, 150, 85, 70, 55)),
               ],
             ),
       },

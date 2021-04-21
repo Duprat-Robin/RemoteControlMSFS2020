@@ -7,5 +7,5 @@ class Routes {
   static const String webSocket = ConnectionWidget.routeName;
   static const String gauge = Anemometre.routeName;
   static const String aritficialHorizon = ArtificialHorizon.routeName;
-  static const String cockpit = '/cockpit';
+  static const String cockpit = '/cokpit';
 }

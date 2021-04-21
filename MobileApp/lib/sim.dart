@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 
 class Sim {
   final ValueNotifier<double> speed = new ValueNotifier(100.0);
-  final ValueNotifier<double> roll = new ValueNotifier(-1.0);
-  final ValueNotifier<double> pitch = new ValueNotifier(0.0);
+  final ValueNotifier<double> roll = new ValueNotifier(-0.3);
+  final ValueNotifier<double> pitch = new ValueNotifier(0.3);
 
   void parseData(String message) {
     for (String parts in message.split(" ")) {

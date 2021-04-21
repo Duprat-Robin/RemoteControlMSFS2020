@@ -105,7 +105,7 @@ class _ConnectionWidgetState extends State<ConnectionWidget> {
   }
 
   void onMessageReceived(String message) {
-    print("Message received: $message");
+    //print("Message received: $message");
     MyApp.mainSim.parseData(message);
   }
 
