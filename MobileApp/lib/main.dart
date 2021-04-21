@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:remotecontrolmsfs/Instruments/artificialHorizon.dart';
+import 'package:remotecontrolmsfs/breakdowns.dart';
 import 'package:remotecontrolmsfs/sim.dart';
 import 'Instruments/gauge.dart';
 import 'Instruments/instrument.dart';
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      initialRoute: Routes.breakdowns,
       routes: {
         Routes.webSocket: (context) => webSocket,
         Routes.gauge: (context) => Anemometre(mainSim.speed),
@@ -29,6 +31,7 @@ class MyApp extends StatelessWidget {
                     AnemometrePainted(mainSim.speed, 200, 150, 85, 70, 55)),
               ],
             ),
+        Routes.breakdowns: (context) => BreakdownManager()
       },
     );
   }

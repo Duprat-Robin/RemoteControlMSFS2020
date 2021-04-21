@@ -3,6 +3,8 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 import 'routes.dart';
 import 'main.dart';
 
+WebSocketChannel _channel;
+
 class ConnectionWidget extends StatefulWidget {
   final String title;
   static const String routeName = '/';
@@ -11,13 +13,17 @@ class ConnectionWidget extends StatefulWidget {
 
   @override
   _ConnectionWidgetState createState() => _ConnectionWidgetState();
+
+  void sendMessage(String mess) {
+    _channel.sink.add(mess);
+  }
 }
 
 class _ConnectionWidgetState extends State<ConnectionWidget> {
   TextEditingController _controller = TextEditingController();
   TextEditingController _portController = TextEditingController();
   TextEditingController _addrController = TextEditingController();
-  WebSocketChannel _channel;
+
   List<Widget> _formList = <Widget>[];
   bool _isConnected = false;
   bool _isInitialized = false;
