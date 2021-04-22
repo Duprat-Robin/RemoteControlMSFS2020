@@ -10,14 +10,12 @@ class BreakdownManager extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Breakdown Manager')),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            MyApp.webSocket.sendMessage(
-                'engine:0'); // Navigate back to first screen when tapped.
-          },
-          child: Text('Engine failure'),
-        ),
+      body: ElevatedButton(
+        onPressed: () {
+          MyApp.webSocket.sendMessage(
+              'engine:0'); // Navigate back to first screen when tapped.
+        },
+        child: Text('Engine failure'),
       ),
     );
   }
