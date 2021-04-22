@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
+@deprecated
 class ArtificialHorizon extends StatefulWidget {
   static const String routeName = '/artificial';
   final ValueListenable<double> roll;
@@ -15,6 +16,7 @@ class ArtificialHorizon extends StatefulWidget {
   _ArtificialHorizonState createState() => _ArtificialHorizonState();
 }
 
+@deprecated
 class _ArtificialHorizonState extends State<ArtificialHorizon> {
   @override
   void initState() {
@@ -154,8 +156,8 @@ class _HorizonPaintedState extends State<HorizonPainted> {
               Container(
                 width: minSize,
                 height: minSize,
-                child: CustomPaint(
-                  painter: HorizonImmobilePainter(),
+                child: const CustomPaint(
+                  painter: const HorizonImmobilePainter(),
                 ),
               ),
             ],
@@ -167,6 +169,7 @@ class _HorizonPaintedState extends State<HorizonPainted> {
 }
 
 class HorizonImmobilePainter extends CustomPainter {
+  const HorizonImmobilePainter();
   @override
   void paint(Canvas canvas, Size size) {
     double minSize = min(size.width, size.height);
@@ -367,8 +370,6 @@ class HorizonPainter extends CustomPainter {
     double minSize = min(size.width, size.height);
     // Différence de taille entre les 2 rectangles
     double rectanglesSizeOffset = 70;
-    // Rectangle de fond
-    Rect mainRect = new Rect.fromLTWH(0, 0, minSize, minSize);
     // Rectangle dans lequel sont circonscrit les constructions
     Rect constructionRect = new Rect.fromLTWH(
         rectanglesSizeOffset / 2,

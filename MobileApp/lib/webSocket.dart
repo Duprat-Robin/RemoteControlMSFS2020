@@ -7,7 +7,7 @@ WebSocketChannel _channel;
 
 class ConnectionWidget extends StatefulWidget {
   final String title;
-  static const String routeName = '/';
+  static const String routeName = '/webSocket';
 
   ConnectionWidget({Key key, @required this.title}) : super(key: key);
 

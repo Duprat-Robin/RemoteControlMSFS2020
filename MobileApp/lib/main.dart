@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:remotecontrolmsfs/Instruments/artificialHorizon.dart';
+import 'package:remotecontrolmsfs/Instruments/knobs.dart';
 import 'package:remotecontrolmsfs/breakdowns.dart';
 import 'package:remotecontrolmsfs/sim.dart';
 import 'Instruments/gauge.dart';
@@ -18,10 +19,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(initialRoute: Routes.webSocket, routes: {
+    return MaterialApp(initialRoute: Routes.anologicRotator, routes: {
       Routes.webSocket: (context) => webSocket,
       Routes.gauge: (context) => Anemometre(mainSim.speed),
       Routes.breakdowns: (context) => BreakdownManager(),
+      Routes.anologicRotator: (context) =>
+          AnalogicRotator(value: ValueNotifier(0.0)),
       Routes.cockpit: (context) => Scaffold(
             appBar: AppBar(
               title: Text('Cockpit'),
