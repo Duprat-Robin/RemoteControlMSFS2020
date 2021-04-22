@@ -8,19 +8,24 @@ class AnalogicRotator extends StatefulWidget {
   static const String routeName = "/analogicRotator";
   final ValueNotifier<double>
       value; // Valeur écoutée et modifiée par le Rotator
-  final int sensibility; // Valeur de sensibilité
+  final int
+      sensibility; // Valeur de sensibilité plus elle est faible plus le rotateur tournera vite
   final double max;
   final double min;
-  final bool circularBahaviour;
-  final CustomPainter painter;
+  final bool
+      circularBahaviour; // Si true alors le dépassement de la valeur max entrainera un retour à la valeur min et inversement
+  final CustomPainter painter; // Painter utiliser pour dessiner le bouton
+  final double
+      rotationAngle; // Angle duquel tourne le bouton à chaque fois en radian
 
   AnalogicRotator(
       {@required this.value,
-      this.sensibility = 10,
+      this.sensibility = 5,
       this.max = double.infinity,
       this.min = double.negativeInfinity,
       this.circularBahaviour = true,
-      this.painter = const SpeedRotatorPainter()});
+      this.painter = const SpeedRotatorPainter(),
+      this.rotationAngle = 0.1});
 
   @override
   _AnalogicRotatorState createState() => _AnalogicRotatorState();
@@ -30,6 +35,7 @@ class _AnalogicRotatorState extends State<AnalogicRotator> {
   double _xCenter = 0;
   double _yCenter = 0;
   int counter = 0;
+  double _rotatorPosition = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +53,7 @@ class _AnalogicRotatorState extends State<AnalogicRotator> {
               width: minSize,
               height: minSize,
               child: Transform.rotate(
-                angle: 0,
+                angle: _rotatorPosition,
                 child: CustomPaint(
                   painter: widget.painter,
                 ),
@@ -94,6 +100,9 @@ class _AnalogicRotatorState extends State<AnalogicRotator> {
       counter++;
       if (counter >= widget.sensibility) {
         if (widget.value.value < widget.max) {
+          setState(() {
+            _rotatorPosition += widget.rotationAngle;
+          });
           widget.value.value++;
         } else if (widget.circularBahaviour) {
           widget.value.value = widget.min;
@@ -104,6 +113,9 @@ class _AnalogicRotatorState extends State<AnalogicRotator> {
       counter--;
       if (counter <= -widget.sensibility) {
         if (widget.value.value > widget.min) {
+          setState(() {
+            _rotatorPosition -= widget.rotationAngle;
+          });
           widget.value.value--;
         } else if (widget.circularBahaviour) {
           widget.value.value = widget.max;
