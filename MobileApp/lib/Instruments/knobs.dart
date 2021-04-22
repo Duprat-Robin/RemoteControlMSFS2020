@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -10,13 +12,15 @@ class AnalogicRotator extends StatefulWidget {
   final double max;
   final double min;
   final bool circularBahaviour;
+  final CustomPainter painter;
 
   AnalogicRotator(
       {@required this.value,
       this.sensibility = 10,
       this.max = double.infinity,
       this.min = double.negativeInfinity,
-      this.circularBahaviour = true});
+      this.circularBahaviour = true,
+      this.painter = const SpeedRotatorPainter()});
 
   @override
   _AnalogicRotatorState createState() => _AnalogicRotatorState();
@@ -36,9 +40,20 @@ class _AnalogicRotatorState extends State<AnalogicRotator> {
           _yCenter = details.localPosition.dy;
         },
         onPanUpdate: _panHandler,
-        child: ElevatedButton(
-          onPressed: () {},
-          child: Text("hello"),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            double minSize = min(constraints.maxWidth, constraints.maxHeight);
+            return Container(
+              width: minSize,
+              height: minSize,
+              child: Transform.rotate(
+                angle: 0,
+                child: CustomPaint(
+                  painter: widget.painter,
+                ),
+              ),
+            );
+          },
         ),
       ),
     );
@@ -97,5 +112,36 @@ class _AnalogicRotatorState extends State<AnalogicRotator> {
       }
     }
     print(widget.value);
+  }
+}
+
+class SpeedRotatorPainter extends CustomPainter {
+  const SpeedRotatorPainter();
+  @override
+  void paint(Canvas canvas, Size size) {
+    double minSize = min(size.width, size.height);
+    canvas.drawCircle(
+        Offset(minSize / 2, minSize / 2),
+        minSize / 2 - 5,
+        Paint()
+          ..color = Colors.grey[200]
+          ..style = PaintingStyle.fill);
+    canvas.drawCircle(
+        Offset(minSize / 2, minSize / 2),
+        minSize / 2 - 10,
+        Paint()
+          ..color = Colors.white
+          ..style = PaintingStyle.fill);
+    canvas.drawCircle(
+        Offset(minSize / 2, minSize / 2),
+        minSize / 2 - 15,
+        Paint()
+          ..color = Colors.grey[300]
+          ..style = PaintingStyle.fill);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
   }
 }
