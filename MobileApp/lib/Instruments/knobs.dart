@@ -17,15 +17,20 @@ class AnalogicRotator extends StatefulWidget {
   final CustomPainter painter; // Painter utiliser pour dessiner le bouton
   final double
       rotationAngle; // Angle duquel tourne le bouton à chaque fois en radian
+  final Function add;
+  final Function sub;
 
-  AnalogicRotator(
-      {@required this.value,
-      this.sensibility = 5,
-      this.max = double.infinity,
-      this.min = double.negativeInfinity,
-      this.circularBahaviour = true,
-      this.painter = const SpeedRotatorPainter(),
-      this.rotationAngle = 0.1});
+  AnalogicRotator({
+    @required this.value,
+    this.sensibility = 5,
+    this.max = double.infinity,
+    this.min = double.negativeInfinity,
+    this.circularBahaviour = true,
+    this.painter = const SpeedRotatorPainter(),
+    this.rotationAngle = 0.1,
+    @required this.add,
+    @required this.sub,
+  });
 
   @override
   _AnalogicRotatorState createState() => _AnalogicRotatorState();
@@ -103,7 +108,7 @@ class _AnalogicRotatorState extends State<AnalogicRotator> {
           setState(() {
             _rotatorPosition += widget.rotationAngle;
           });
-          widget.value.value++;
+          widget.add(widget.value.value);
         } else if (widget.circularBahaviour) {
           widget.value.value = widget.min;
         }
@@ -116,7 +121,7 @@ class _AnalogicRotatorState extends State<AnalogicRotator> {
           setState(() {
             _rotatorPosition -= widget.rotationAngle;
           });
-          widget.value.value--;
+          widget.sub(widget.value.value);
         } else if (widget.circularBahaviour) {
           widget.value.value = widget.max;
         }
