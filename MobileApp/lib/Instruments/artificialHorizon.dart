@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_cube/flutter_cube.dart';
 
 @deprecated
 class ArtificialHorizon extends StatefulWidget {
@@ -356,6 +357,54 @@ class HorizonBackgroundPainter extends CustomPainter {
   @override
   bool shouldRepaint(HorizonBackgroundPainter oldDelegate) {
     return false;
+  }
+}
+
+class Horizon3D extends StatefulWidget {
+  final ValueListenable<double> roll; // Angle en rad
+  final ValueListenable<double> pitch; // Angle en rad
+  Horizon3D({@required this.roll, @required this.pitch});
+  @override
+  _Horizon3DState createState() => _Horizon3DState();
+}
+
+class _Horizon3DState extends State<Horizon3D> {
+  Scene _scene;
+  @override
+  void initState() {
+    super.initState();
+    widget.roll.addListener(update);
+    widget.pitch.addListener(update);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Cube(
+        onSceneCreated: (Scene scene) {
+          _scene = scene;
+          scene.world.add(Object(
+              scale: Vector3(9.0, 9.0, 9.0),
+              fileName: 'assets/3D/hrz.obj',
+              rotation: Vector3(widget.roll.value * 180 / pi, 95,
+                  widget.pitch.value * 180 / pi)));
+          scene.update();
+        },
+      ),
+    );
+  }
+
+  void update() {
+    setState(() {
+      _scene.update();
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    widget.roll.removeListener(update);
+    widget.pitch.removeListener(update);
   }
 }
 

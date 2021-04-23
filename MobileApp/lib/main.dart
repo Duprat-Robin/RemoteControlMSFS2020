@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(initialRoute: Routes.anologicRotator, routes: {
+    return MaterialApp(initialRoute: Routes.webSocket, routes: {
       Routes.webSocket: (context) => webSocket,
       Routes.gauge: (context) => Anemometre(mainSim.speed),
       Routes.breakdowns: (context) => BreakdownManager(),
