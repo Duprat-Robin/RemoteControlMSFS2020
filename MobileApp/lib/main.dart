@@ -5,6 +5,7 @@ import 'package:remotecontrolmsfs/breakdowns.dart';
 import 'package:remotecontrolmsfs/sim.dart';
 import 'Instruments/gauge.dart';
 import 'Instruments/instrument.dart';
+import 'Instruments/radioPanel.dart';
 import 'webSocket.dart';
 import 'routes.dart';
 
@@ -23,8 +24,8 @@ class MyApp extends StatelessWidget {
       Routes.webSocket: (context) => webSocket,
       Routes.gauge: (context) => Anemometre(mainSim.speed),
       Routes.breakdowns: (context) => BreakdownManager(),
-      Routes.anologicRotator: (context) =>
-          AnalogicRotator(value: ValueNotifier(0.0)),
+      Routes.anologicRotator: (context) => AnalogicRotator(
+          value: ValueNotifier(0.0), add: incrfreq, sub: decrfreq),
       Routes.cockpit: (context) => Scaffold(
             appBar: AppBar(
               title: Text('Cockpit'),
