@@ -128,7 +128,7 @@ class _AnalogicRotatorState extends State<AnalogicRotator> {
         counter = widget.sensibility;
       }
     }
-    print(widget.value);
+    //print(widget.value.value);
   }
 }
 

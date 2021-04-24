@@ -24,17 +24,24 @@ class MyApp extends StatelessWidget {
       Routes.webSocket: (context) => webSocket,
       Routes.gauge: (context) => Anemometre(mainSim.speed),
       Routes.breakdowns: (context) => BreakdownManager(),
-      Routes.anologicRotator: (context) => AnalogicRotator(
-          value: ValueNotifier(0.0), add: incrfreq, sub: decrfreq),
+      Routes.anologicRotator: (context) =>
+          AnalogicRotator(value: valFreqRadio, add: incrfreq, sub: decrfreq),
       Routes.cockpit: (context) => Scaffold(
             appBar: AppBar(
               title: Text('Cockpit'),
               actions: <Widget>[
                 IconButton(
-                  icon: const Icon(Icons.arrow_right_alt_outlined),
+                  icon: const Icon(Icons.construction),
                   tooltip: 'Open breakdown manager',
                   onPressed: () {
                     Navigator.pushNamed(context, Routes.breakdowns);
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(Icons.settings_input_antenna),
+                  tooltip: 'Open radio panel',
+                  onPressed: () {
+                    Navigator.pushNamed(context, Routes.anologicRotator);
                   },
                 ),
               ],

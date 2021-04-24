@@ -3,6 +3,8 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 import 'routes.dart';
 import 'main.dart';
 
+enum DATUM { SPEED, PITCH, BANK, ISFIRED, RADIOFREQ }
+
 WebSocketChannel _channel;
 
 class ConnectionWidget extends StatefulWidget {
