@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:remotecontrolmsfs/Instruments/artificialHorizon.dart';
+import 'package:remotecontrolmsfs/Instruments/displays.dart';
 import 'package:remotecontrolmsfs/Instruments/knobs.dart';
 import 'package:remotecontrolmsfs/breakdowns.dart';
 import 'package:remotecontrolmsfs/sim.dart';
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(initialRoute: Routes.webSocket, routes: {
+    return MaterialApp(initialRoute: Routes.display, routes: {
       Routes.webSocket: (context) => webSocket,
       Routes.gauge: (context) => Anemometre(mainSim.speed),
       Routes.breakdowns: (context) => BreakdownManager(),
@@ -59,6 +60,14 @@ class MyApp extends StatelessWidget {
               ],
             ),
           ),
+      Routes.display: (context) => SegmentDisplay(),
+      Routes.aritficialHorizon: (context) => InstrumentLayout(
+            tag: 'horiz3D',
+            child: Horizon3D(
+              roll: mainSim.roll,
+              pitch: mainSim.pitch,
+            ),
+          )
     });
   }
 }

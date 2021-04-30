@@ -361,6 +361,7 @@ class HorizonBackgroundPainter extends CustomPainter {
 }
 
 class Horizon3D extends StatefulWidget {
+  static const String routeName = "/horiz3D";
   final ValueListenable<double> roll; // Angle en rad
   final ValueListenable<double> pitch; // Angle en rad
   Horizon3D({@required this.roll, @required this.pitch});
