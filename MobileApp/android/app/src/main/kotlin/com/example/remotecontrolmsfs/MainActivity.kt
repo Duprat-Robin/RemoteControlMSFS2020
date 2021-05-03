@@ -1,0 +1,6 @@
+package com.example.remotecontrolmsfs
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity: FlutterActivity() {
+}
