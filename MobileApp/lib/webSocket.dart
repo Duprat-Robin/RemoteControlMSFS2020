@@ -3,7 +3,14 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 import 'routes.dart';
 import 'main.dart';
 
-enum DATUM { SPEED, PITCH, BANK, ISFIRED, RADIOFREQ }
+enum DATUM {
+  SPEED,
+  PITCH,
+  BANK,
+  ISFIRED,
+  COM_RADIO_WHOLE_DEC,
+  COM_RADIO_WHOLE_INC
+}
 
 WebSocketChannel _channel;
 
