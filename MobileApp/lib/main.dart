@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(initialRoute: Routes.webSocket, routes: {
+    return MaterialApp(initialRoute: Routes.cockpit, routes: {
       Routes.webSocket: (context) => webSocket,
       Routes.gauge: (context) => Anemometre(mainSim.speed),
       Routes.breakdowns: (context) => BreakdownManager(),
@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
                   icon: const Icon(Icons.settings_input_antenna),
                   tooltip: 'Open radio panel',
                   onPressed: () {
-                    Navigator.pushNamed(context, Routes.anologicRotator);
+                    Navigator.pushNamed(context, Routes.radioPanel);
                   },
                 ),
               ],
@@ -67,7 +67,12 @@ class MyApp extends StatelessWidget {
               roll: mainSim.roll,
               pitch: mainSim.pitch,
             ),
-          )
+          ),
+      Routes.radioPanel: (context) => Row(
+            children: [
+              InstrumentLayout(tag: 'radioPanel', child: RadioPanel()),
+            ],
+          ),
     });
   }
 }

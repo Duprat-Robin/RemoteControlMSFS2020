@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class SegmentDisplay extends StatelessWidget {
   static const Map<int, List<bool>> numToList = {
-    0: [true, true, true, false, true, true, false],
+    0: [true, true, true, false, true, true, true],
     1: [false, false, true, false, false, true, false],
     2: [true, false, true, true, true, false, true],
     3: [true, false, true, true, false, true, true],
@@ -20,26 +20,13 @@ class SegmentDisplay extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      return Stack(
-        children: [
-          Positioned(
-            top: 50,
-            left: 50,
-            child: SizedBox(
-              width: 50,
-              height: 90,
-              child: Transform.rotate(
-                angle: 0,
-                child: CustomPaint(
-                  painter: SegmentsPainter(isOn: numToList[number]),
-                ),
-              ),
-            ),
-          ),
-        ],
-      );
-    });
+    return SizedBox(
+      width: 50,
+      height: 90,
+      child: CustomPaint(
+        painter: SegmentsPainter(isOn: numToList[number]),
+      ),
+    );
   }
 }
 

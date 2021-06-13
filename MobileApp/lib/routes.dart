@@ -4,6 +4,7 @@ import 'package:remotecontrolmsfs/breakdowns.dart';
 
 import 'Instruments/artificialHorizon.dart';
 import 'Instruments/gauge.dart';
+import 'Instruments/radioPanel.dart';
 import 'webSocket.dart';
 
 class Routes {
@@ -14,4 +15,5 @@ class Routes {
   static const String cockpit = '/cockpit';
   static const String breakdowns = BreakdownManager.routeName;
   static const String display = SegmentDisplay.routeName;
+  static const String radioPanel = RadioPanel.routeName;
 }
