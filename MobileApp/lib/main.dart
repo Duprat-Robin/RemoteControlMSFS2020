@@ -70,7 +70,7 @@ class MyApp extends StatelessWidget {
           ),
       Routes.radioPanel: (context) => Row(
             children: [
-              InstrumentLayout(tag: 'radioPanel', child: RadioPanel()),
+              Flexible(child: RadioPanel()),
             ],
           ),
     });
