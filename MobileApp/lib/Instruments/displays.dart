@@ -30,6 +30,20 @@ class SegmentDisplay extends StatelessWidget {
   }
 }
 
+class DotDisplay extends StatelessWidget {
+  static const String routeName = "/dot";
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 18,
+      height: 90,
+      child: CustomPaint(
+        painter: DotPainter(),
+      ),
+    );
+  }
+}
+
 class SegmentsPainter extends CustomPainter {
   final List<bool> isOn;
   static const double horizontalOffset = 10;
@@ -46,7 +60,7 @@ class SegmentsPainter extends CustomPainter {
     if (isOn[1]) {
       paint.color = Colors.yellow;
     } else {
-      paint.color = Colors.grey;
+      paint.color = Colors.grey.shade900;
     }
     Path path = Path()
       ..moveTo(sizeWidth, sizeHeight + 1 * 4 * sizeHeight)
@@ -60,7 +74,7 @@ class SegmentsPainter extends CustomPainter {
     if (isOn[4]) {
       paint.color = Colors.yellow;
     } else {
-      paint.color = Colors.grey;
+      paint.color = Colors.grey.shade900;
     }
     Path path1 = Path()
       ..moveTo(sizeWidth, sizeHeight + 2 * 4 * sizeHeight)
@@ -74,7 +88,7 @@ class SegmentsPainter extends CustomPainter {
     if (isOn[2]) {
       paint.color = Colors.yellow;
     } else {
-      paint.color = Colors.grey;
+      paint.color = Colors.grey.shade900;
     }
     Path path2 = Path()
       ..moveTo(7 * sizeWidth, sizeHeight + 1 * 4 * sizeHeight)
@@ -88,7 +102,7 @@ class SegmentsPainter extends CustomPainter {
     if (isOn[5]) {
       paint.color = Colors.yellow;
     } else {
-      paint.color = Colors.grey;
+      paint.color = Colors.grey.shade900;
     }
     Path path3 = Path()
       ..moveTo(7 * sizeWidth, sizeHeight + 2 * 4 * sizeHeight)
@@ -102,7 +116,7 @@ class SegmentsPainter extends CustomPainter {
     if (isOn[0]) {
       paint.color = Colors.yellow;
     } else {
-      paint.color = Colors.grey;
+      paint.color = Colors.grey.shade900;
     }
     Path path4 = Path()
       ..moveTo(sizeWidth, sizeHeight + 1 * 4 * sizeHeight)
@@ -116,7 +130,7 @@ class SegmentsPainter extends CustomPainter {
     if (isOn[3]) {
       paint.color = Colors.yellow;
     } else {
-      paint.color = Colors.grey;
+      paint.color = Colors.grey.shade900;
     }
     Path path5 = Path()
       ..moveTo(sizeWidth, sizeHeight + 2 * 4 * sizeHeight)
@@ -130,7 +144,7 @@ class SegmentsPainter extends CustomPainter {
     if (isOn[6]) {
       paint.color = Colors.yellow;
     } else {
-      paint.color = Colors.grey;
+      paint.color = Colors.grey.shade900;
     }
     Path path6 = Path()
       ..moveTo(sizeWidth, sizeHeight + 3 * 4 * sizeHeight)
@@ -141,6 +155,34 @@ class SegmentsPainter extends CustomPainter {
       ..relativeLineTo(-4 * sizeWidth, 0)
       ..close();
     canvas.drawPath(path6, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
+  }
+}
+
+class DotPainter extends CustomPainter {
+  static const double horizontalOffset = 10;
+  static const double offset = 40;
+  DotPainter();
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint paint = Paint()..style = PaintingStyle.fill;
+    double sizeHeight = size.height / 14;
+    double sizeWidth = size.width / 8;
+    paint.color = Colors.yellow;
+
+    Path path = Path()
+      ..moveTo(sizeWidth, sizeHeight + 3 * 4 * sizeHeight)
+      ..relativeLineTo(sizeWidth, -sizeHeight)
+      ..relativeLineTo(4 * sizeWidth, 0)
+      ..relativeLineTo(sizeWidth, sizeHeight)
+      ..relativeLineTo(-sizeWidth, sizeHeight)
+      ..relativeLineTo(-4 * sizeWidth, 0)
+      ..close();
+    canvas.drawPath(path, paint);
   }
 
   @override

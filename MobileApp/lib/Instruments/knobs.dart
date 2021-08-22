@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter/gestures.dart';
 
 class AnalogicRotator extends StatefulWidget {
   static const String routeName = "/analogicRotator";
@@ -44,30 +45,33 @@ class _AnalogicRotatorState extends State<AnalogicRotator> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: GestureDetector(
-        onPanDown: (details) {
-          _xCenter = details.localPosition.dx;
-          _yCenter = details.localPosition.dy;
-        },
-        onPanUpdate: _panHandler,
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            double minSize = min(constraints.maxWidth, constraints.maxHeight);
-            return Container(
-              width: minSize,
-              height: minSize,
-              child: Transform.rotate(
-                angle: _rotatorPosition,
-                child: CustomPaint(
-                  painter: widget.painter,
-                ),
-              ),
-            );
-          },
-        ),
-      ),
-    );
+    return ScrollDetector(
+        onPointerScroll: _scrollHandler,
+        child: Center(
+          child: GestureDetector(
+            onPanDown: (details) {
+              _xCenter = details.localPosition.dx;
+              _yCenter = details.localPosition.dy;
+            },
+            onPanUpdate: _panHandler,
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                double minSize =
+                    min(constraints.maxWidth, constraints.maxHeight);
+                return Container(
+                  width: minSize,
+                  height: minSize,
+                  child: Transform.rotate(
+                    angle: _rotatorPosition,
+                    child: CustomPaint(
+                      painter: widget.painter,
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ));
   }
 
   void _panHandler(DragUpdateDetails details) {
@@ -130,6 +134,35 @@ class _AnalogicRotatorState extends State<AnalogicRotator> {
     }
     //print(widget.value.value);
   }
+
+  void _scrollHandler(PointerScrollEvent sc) {
+    if (sc.scrollDelta.direction < 0) {
+      if (true) {
+        if (widget.value.value < widget.max) {
+          setState(() {
+            _rotatorPosition += widget.rotationAngle;
+          });
+          widget.add(widget.value.value);
+        } else if (widget.circularBahaviour) {
+          widget.value.value = widget.min;
+        }
+        counter = -widget.sensibility;
+      }
+    } else {
+      counter -= widget.sensibility * 2;
+      if (true) {
+        if (widget.value.value > widget.min) {
+          setState(() {
+            _rotatorPosition -= widget.rotationAngle;
+          });
+          widget.sub(widget.value.value);
+        } else if (widget.circularBahaviour) {
+          widget.value.value = widget.max;
+        }
+        counter = widget.sensibility;
+      }
+    }
+  }
 }
 
 class SpeedRotatorPainter extends CustomPainter {
@@ -161,4 +194,29 @@ class SpeedRotatorPainter extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
     return false;
   }
+}
+
+class ScrollDetector extends StatelessWidget {
+  final void Function(PointerScrollEvent event) onPointerScroll;
+  final Widget child;
+
+  const ScrollDetector(
+      {Key key, @required this.onPointerScroll, @required this.child})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Listener(
+      onPointerSignal: (pointerSignal) {
+        if (pointerSignal is PointerScrollEvent) onPointerScroll(pointerSignal);
+      },
+      child: child,
+    );
+  }
+}
+
+Function signald(PointerScrollEvent sc) {
+  print("Scrolled !");
+  print(sc.scrollDelta.direction > 0);
+  if (sc.scrollDelta.direction > 0) {}
 }

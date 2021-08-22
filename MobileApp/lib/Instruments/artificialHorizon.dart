@@ -132,8 +132,8 @@ class _HorizonPaintedState extends State<HorizonPainted> {
                 child: Transform.rotate(
                   angle: widget.roll.value,
                   child: Transform.translate(
-                    offset: Offset(
-                        0, widget.pitch.value * _pitchAngleToTranslation),
+                    offset: Offset(0,
+                        (-1) * widget.pitch.value * _pitchAngleToTranslation),
                     child: CustomPaint(
                       painter: HorizonBackgroundPainter(
                         pitchAngleToTranslation: _pitchAngleToTranslation,

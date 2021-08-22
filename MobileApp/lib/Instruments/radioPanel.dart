@@ -135,6 +135,10 @@ class _FrequencyDisplayState extends State<FrequencyDisplay> {
                     Spacer(
                       flex: flexFactorSpacer,
                     ),
+                    Flexible(
+                      flex: 5,
+                      child: DotDisplay(),
+                    ),
                     Spacer(
                       flex: flexFactorSpacer,
                     ),
