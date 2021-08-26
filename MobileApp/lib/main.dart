@@ -55,8 +55,8 @@ class MyApp extends StatelessWidget {
                         HorizonPainted.standard(mainSim.roll, mainSim.pitch)),
                 InstrumentLayout(
                     tag: 'anemo',
-                    child:
-                        AnemometrePainted(mainSim.speed, 200, 150, 85, 70, 55)),
+                    child: AnemometrePainted(
+                        mainSim.speed, 200, 150, 85, 70, mainSim.vs0)),
               ],
             ),
           ),

@@ -52,7 +52,7 @@ class AnemometrePainted extends StatefulWidget {
   final int vne; // never exceed
   final int vno; // normal operating
   final int vfe; // flaps extended
-  final int vs0; // decrochage en config décollage
+  final ValueListenable<int> vs0; // decrochage en config décollage
   final int vs1; // decrochage en lisse
 
   AnemometrePainted(
@@ -68,26 +68,55 @@ class AnemometrePainted extends StatefulWidget {
   _AnemometrePaintedState createState() => _AnemometrePaintedState();
 }
 
-class _AnemometrePaintedState extends State<AnemometrePainted> {
+class _AnemometrePaintedState extends State<AnemometrePainted>
+    with SingleTickerProviderStateMixin {
   double _angle;
   double _speedToAngle;
   final int _graduationSize = 5; // On veut des graduations de 5 kts
+
+  Animation<double> _vs0Animation;
+  AnimationController _vs0Controller;
+  double _vs0Old;
+  double _vs0New;
+  double _vs0;
 
   @override
   void initState() {
     super.initState();
     _speedToAngle = (2 * pi) / (widget.vne + 50);
     widget.speed.addListener(rebuild);
+    widget.vs0.addListener(rebuild);
+
+    //Initialisation pour l'aniation de vs0
+    _vs0 = speedToAngle(widget.vs0.value);
+    _vs0Old = _vs0;
+    _vs0New = _vs0;
+    _vs0Controller =
+        AnimationController(vsync: this, duration: const Duration(seconds: 3));
   }
 
   void rebuild() {
-    setState(() {});
+    setState(() {
+      _vs0New = speedToAngle(widget.vs0.value);
+      _vs0Animation =
+          Tween<double>(begin: _vs0Old, end: _vs0New).animate(_vs0Controller)
+            ..addListener(() {
+              setState(() {
+                _vs0 = _vs0Animation.value;
+              });
+            });
+    });
+    _vs0Controller.reset();
+    _vs0Controller.forward();
+    _vs0Old = _vs0New;
   }
 
   @override
   void dispose() {
-    super.dispose();
     widget.speed.removeListener(rebuild);
+    widget.vs0.removeListener(rebuild);
+    _vs0Controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -104,7 +133,7 @@ class _AnemometrePaintedState extends State<AnemometrePainted> {
               speedToAngle(widget.vno),
               speedToAngle(widget.vfe),
               speedToAngle(widget.vs1),
-              speedToAngle(widget.vs0),
+              _vs0,
               _graduationSize * _speedToAngle,
               _angle,
             ),
