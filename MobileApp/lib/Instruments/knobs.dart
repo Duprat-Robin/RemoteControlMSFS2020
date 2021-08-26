@@ -215,6 +215,7 @@ class ScrollDetector extends StatelessWidget {
   }
 }
 
+//FIXME Void instead of Function ??
 Function signald(PointerScrollEvent sc) {
   print("Scrolled !");
   print(sc.scrollDelta.direction > 0);

@@ -53,7 +53,6 @@ class SegmentsPainter extends CustomPainter {
   });
   @override
   void paint(Canvas canvas, Size size) {
-    print(isOn);
     Paint paint = Paint()..style = PaintingStyle.fill;
     double sizeHeight = size.height / 14;
     double sizeWidth = size.width / 8;

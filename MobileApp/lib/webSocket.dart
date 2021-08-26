@@ -24,7 +24,11 @@ class ConnectionWidget extends StatefulWidget {
   _ConnectionWidgetState createState() => _ConnectionWidgetState();
 
   void sendMessage(String mess) {
-    _channel.sink.add(mess);
+    try {
+      _channel.sink.add(mess);
+    } catch (e) {
+      print(e);
+    }
   }
 }
 
@@ -120,7 +124,7 @@ class _ConnectionWidgetState extends State<ConnectionWidget> {
   }
 
   void onMessageReceived(String message) {
-    //print("Message received: $message");
+    print("Message received: $message");
     MyApp.mainSim.parseData(message);
   }
 

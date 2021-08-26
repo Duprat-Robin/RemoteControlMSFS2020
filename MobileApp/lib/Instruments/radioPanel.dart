@@ -186,15 +186,12 @@ class SwitchButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      //TODO Ajouter un retour visuel quand on clique
-      // Il y a peut-être une méthode pour faire des icons qui changent de couleur quand on clique comme c'est le cas pour les icons classiques
       child: Container(
         color: Colors.black,
-        child: IconButton(
-            splashRadius: 0.1,
-            iconSize: 150,
-            icon: Image.asset('assets/images/SwitchButtonIcon.png'),
-            onPressed: this.onPressed),
+        child: TextButton(
+          child: Image.asset('assets/images/SwitchButtonIcon.png'),
+          onPressed: this.onPressed,
+        ),
       ),
     );
   }
